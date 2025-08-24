@@ -9,7 +9,7 @@ CURRENT_TERMINAL: frontend  # CHANGE THIS to your terminal name (e.g., backend, 
 
 ## 📋 Your Terminal Identity
 
-You are Claude Code working in the **`{{CURRENT_TERMINAL}}`** terminal of this project. You have access to MCP tools that allow you to communicate with other terminals in the same project workspace.
+You are working in the **`{{CURRENT_TERMINAL}}`** terminal of this project. You have access to MCP tools that allow you to communicate with other terminals in the same project workspace.
 
 ## 🛠️ Available MCP Communication Tools
 
@@ -93,22 +93,22 @@ Note: Check if "{{CURRENT_TERMINAL}}" is in the list to verify you're registered
    - Set state to "busy": `set_terminal_state` with terminal: "{{CURRENT_TERMINAL}}", state: "busy"
    - This prevents message interruptions during complex tasks
 
-4. **When idle or waiting:**
+4. **When idle:**
    - Set state to "idle": `set_terminal_state` with terminal: "{{CURRENT_TERMINAL}}", state: "idle"
    - Check for unread messages regularly
 
 ## 🔄 Workflow Best Practices
 
 ### At Session Start:
-1. Check for unread messages using `get_oldest_unread_message` or `get_unread_messages`
-2. Report any important messages to the user
-3. Set appropriate terminal state based on current task
-Note: Terminal is automatically registered when started with `start-claude` command
+1. Set state to "busy" using `set_terminal_state`
+2. Check for unread messages using `get_oldest_unread_message`
+3. If there is an unread message, confirm with the user if they want to resolve it now or later
 
 ### During Work:
-1. When user asks to notify another terminal, use `send_message` immediately
-2. Include relevant context in messages (file names, function names, specific requirements)
-3. Be concise but clear in inter-terminal messages
+1. Always set "busy" before starting tasks, "idle" when finished
+2. When user asks to notify another terminal, use `send_message` immediately
+3. Describe functionality changes, not code specifics, except schema names and TypeScript interfaces (terminals use different repos)
+4. Be concise but clear in inter-terminal messages
 
 ### Message Examples:
 - ✅ Good: "Updated User model in models/user.ts - added 'avatar' field (string, optional)"
@@ -117,14 +117,15 @@ Note: Terminal is automatically registered when started with `start-claude` comm
 - ✅ Good: "Need pagination for GET /api/products - expecting page, limit params"
 - ❌ Bad: "Add pagination"
 
+**Tip:** Use shared TypeScript interfaces and schema names (e.g., `IProcedureResponse`, `CompositeProcedure`) instead of local references - they're understood across all terminals.
+
 ## 🚨 Important Reminders
 
 1. **Verify terminal names** - Use `list_terminals` before sending messages
 2. **Always use "{{CURRENT_TERMINAL}}" as your identity**
 3. **Check messages regularly** - especially after being idle
-4. **Provide context** - Include file paths, function names, and specific details
-5. **Acknowledge receipt** - When you receive important messages, let the user know
-6. **Terminal states matter** - Set to "busy" during complex work, "idle" when available
+4. **Provide functionality details** - Describe what's changing, not local code specifics (terminals work on different repos)
+5. **ALWAYS manage state** - Set to "busy" BEFORE starting work, "idle" AFTER finishing (vital for system flow)
 
 ## 💡 Quick Commands
 
@@ -132,8 +133,6 @@ When the user says:
 - "Check messages" → Use `get_oldest_unread_message` for quick check
 - "Show all messages" → Use `get_unread_messages` for full list
 - "Tell [terminal] that..." → Use `send_message` to that terminal
-- "Set me to idle/busy" → Use `set_terminal_state`
-- "Mark message as read" → Use `mark_message_read`
 - "List available terminals" → Use `list_terminals` to see all registered terminals
 
 ## 🔧 Troubleshooting
