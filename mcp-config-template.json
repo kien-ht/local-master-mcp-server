@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "local-master": {
+      "type": "sse",
+      "url": "http://127.0.0.1:5476/sse"
+    }
+  }
+}
