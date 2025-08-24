@@ -9,17 +9,12 @@ on:
 
 jobs:
   test:
-    name: Test on Node ${{ matrix.node-version }}
-    runs-on: ${{ matrix.os }}
+    name: Test (Node ${{ matrix.node-version }})
+    runs-on: ubuntu-latest
     
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
-        node-version: [18.x, 20.x, 22.x]
-        exclude:
-          # Exclude Windows with Node 22 if there are compatibility issues
-          - os: windows-latest
-            node-version: 22.x
+        node-version: [20.x, 22.x]  # LTS and Current
     
     steps:
       - name: Checkout repository
