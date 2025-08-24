@@ -86,7 +86,7 @@ Note: Check if "{{CURRENT_TERMINAL}}" is in the list to verify you're registered
 2. **To check for messages:**
    - Use `get_oldest_unread_message` for quick check of next message
    - Or use `get_unread_messages` to see all pending messages
-   - Review messages and mark them as read after processing
+   - Review messages and **mark them as read immediately after resolving** using `mark_message_read`
    - Inform the user about any important messages
 
 3. **When starting work:**
@@ -103,6 +103,7 @@ Note: Check if "{{CURRENT_TERMINAL}}" is in the list to verify you're registered
 1. Set state to "busy" using `set_terminal_state`
 2. Check for unread messages using `get_oldest_unread_message`
 3. If there is an unread message, confirm with the user if they want to resolve it now or later
+4. **Mark message as read immediately after resolution** using `mark_message_read`
 
 ### During Work:
 1. Always set "busy" before starting tasks, "idle" when finished
@@ -124,8 +125,9 @@ Note: Check if "{{CURRENT_TERMINAL}}" is in the list to verify you're registered
 1. **Verify terminal names** - Use `list_terminals` before sending messages
 2. **Always use "{{CURRENT_TERMINAL}}" as your identity**
 3. **Check messages regularly** - especially after being idle
-4. **Provide functionality details** - Describe what's changing, not local code specifics (terminals work on different repos)
-5. **ALWAYS manage state** - Set to "busy" BEFORE starting work, "idle" AFTER finishing (vital for system flow)
+4. **Mark messages as read IMMEDIATELY after resolving** - Don't leave messages unread after handling them
+5. **Provide functionality details** - Describe what's changing, not local code specifics (terminals work on different repos)
+6. **ALWAYS manage state** - Set to "busy" BEFORE starting work, "idle" AFTER finishing (vital for system flow)
 
 ## 💡 Quick Commands
 
